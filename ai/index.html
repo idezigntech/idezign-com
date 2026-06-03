@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/logos/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/logos/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/logos/favicon-16.png">
+<link rel="apple-touch-icon" href="/logos/apple-touch-icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iDezign.ai — The Intelligence Side of Things</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --ink:#161616;
+  --muted:#6a6a6a;
+  --hair:#ececec;
+  --red:#A82828;
+  --red-deep:#8f1f1f;
+  --ease:cubic-bezier(.22,.61,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{
+  font-family:'Jost',sans-serif;color:var(--ink);font-weight:300;
+  -webkit-font-smoothing:antialiased;
+}
+#caretghost{
+  position:fixed;right:-60px;top:20px;font-size:560px;line-height:1;
+  color:var(--red);opacity:.035;font-weight:200;pointer-events:none;
+  user-select:none;z-index:0;
+}
+#world{position:fixed;inset:0;z-index:2}
+#mast{
+  position:fixed;top:34px;left:50%;transform:translateX(-50%);
+  z-index:5;text-align:center;pointer-events:none;
+}
+#mast .eyebrow{
+  font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--red);font-weight:400;margin-bottom:14px;
+}
+.logorow{display:flex;align-items:flex-start;justify-content:center;gap:3px}
+.logorow img{height:46px;width:auto;display:block}
+.logorow sup{
+  font-family:'Jost',sans-serif;font-size:14px;font-weight:400;
+  color:var(--red);margin-top:2px;letter-spacing:0;
+}
+#wm-fallback{display:none}
+.wordmark{
+  font-size:34px;font-weight:400;letter-spacing:-.02em;color:var(--ink);
+  display:inline-block;line-height:1;
+}
+.wordmark .imark{position:relative;display:inline-block}
+.wordmark .imark .dot{
+  position:absolute;top:.06em;left:50%;transform:translateX(-50%);
+  width:.14em;height:.14em;border-radius:50%;background:var(--red);
+}
+.wordmark sup{
+  font-size:.42em;font-weight:400;color:var(--red);
+  vertical-align:super;letter-spacing:0;margin-left:.06em;
+}
+#mast .route{
+  margin-top:12px;font-size:13px;letter-spacing:.04em;color:var(--muted);
+}
+#mast .route b{font-weight:400;color:var(--ink)}
+#stage{
+  position:fixed;inset:0;z-index:4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  pointer-events:none;text-align:center;padding:0 24px;
+}
+#tagline{
+  font-weight:200;font-size:clamp(24px,3.8vw,48px);line-height:1.05;
+  letter-spacing:-.02em;min-height:1.2em;max-width:24ch;
+}
+#tagline .caret{
+  display:inline-block;width:.5em;height:1em;background:var(--red);
+  vertical-align:text-bottom;margin-left:4px;
+  animation:blink .8s steps(1) infinite;
+}
+@keyframes blink{50%{opacity:0}}
+#loading{
+  margin-top:26px;font-size:12px;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--red);font-weight:400;
+  opacity:0;transition:opacity .5s var(--ease);
+  display:flex;align-items:center;gap:14px;
+}
+#loading::before{content:"";width:34px;height:1px;background:var(--red)}
+#loading::after{content:"";width:34px;height:1px;background:var(--red)}
+#loadbar{
+  margin-top:16px;width:min(380px,70vw);height:2px;background:var(--hair);
+  opacity:0;transition:opacity .5s var(--ease);overflow:hidden;
+}
+#loadbar .fill{height:100%;width:0%;background:var(--red)}
+#enter{
+  margin-top:32px;pointer-events:auto;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .7s var(--ease),transform .7s var(--ease);
+  visibility:hidden;
+}
+#enter.show{opacity:1;transform:translateY(0);visibility:visible}
+#enter a{
+  display:inline-block;text-decoration:none;
+  background:var(--red);color:#fff;padding:15px 30px;font-size:15px;
+  letter-spacing:.06em;text-transform:uppercase;font-weight:400;
+  transition:all .35s var(--ease);
+}
+#enter a:hover{
+  background:var(--red-deep);transform:translateY(-2px);
+  box-shadow:0 10px 30px -10px rgba(168,40,40,.5);
+}
+#enter .sub{
+  margin-top:14px;font-size:13px;letter-spacing:.04em;color:var(--muted);
+}
+#footer{
+  position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
+  z-index:5;font-size:12px;letter-spacing:.04em;color:var(--muted);
+  pointer-events:none;text-align:center;white-space:nowrap;
+}
+#footer b{font-weight:400;color:var(--ink)}
+</style>
+</head>
+<body>
+  <div id="caretghost">^</div>
+  <canvas id="world"></canvas>
+
+  <div id="mast">
+    <div class="eyebrow">An iDezign Technology Site</div>
+    <div class="logorow">
+      <img src="/logos/iDezign-wordmark-dark.png" alt="iDezign"
+           onerror="this.style.display='none';document.getElementById('wm-fallback').style.display='inline-block'">
+      <sup>^ai</sup>
+    </div>
+    <span id="wm-fallback" class="wordmark"><span class="imark">&#305;<span class="dot"></span></span>Dezign<sup>^ai</sup></span>
+    <div class="route">idezign.com &rarr; <b>idezign.ai</b></div>
+  </div>
+
+  <div id="stage">
+    <div id="tagline"><span id="typed"></span><span class="caret"></span></div>
+    <div id="loading">Loading</div>
+    <div id="loadbar"><div class="fill"></div></div>
+    <div id="enter">
+      <a href="https://idezign.ai" id="enterBtn">Enter idezign.ai &rarr;</a>
+      <div class="sub">The intelligence side of iDezign Technology &mdash; AI built for the way you actually work.</div>
+    </div>
+  </div>
+
+  <div id="footer">&copy; <b>iDezign Technology</b> &mdash; idezign.com &middot; idezign.ai</div>
+
+<script>
+(function () {
+  const canvas = document.getElementById('world');
+  const ctx = canvas.getContext('2d');
+  let W = window.innerWidth, H = window.innerHeight;
+  canvas.width = W; canvas.height = H;
+
+  function pickColor() {
+    const r = Math.random();
+    if (r < 0.18) return '#A82828';
+    if (r < 0.6) return '#6a6a6a';
+    return '#161616';
+  }
+
+  let nodes = [], edges = [], pulses = [], drifters = [];
+
+  function buildNetwork() {
+    nodes = []; edges = []; pulses = [];
+    const layerCounts = [5, 8, 11, 12, 11, 8, 5];
+    const L = layerCounts.length;
+    const xPad = W * 0.10, yTop = H * 0.16, yBot = H * 0.88;
+
+    layerCounts.forEach((count, li) => {
+      const x = xPad + (W - xPad * 2) * (li / (L - 1));
+      for (let ni = 0; ni < count; ni++) {
+        const y = yTop + (yBot - yTop) * (count === 1 ? 0.5 : ni / (count - 1));
+        nodes.push({
+          tx: x + (Math.random() - 0.5) * W * 0.045,
+          ty: y + (Math.random() - 0.5) * H * 0.05,
+          x: Math.random() * W,
+          y: H + 40 + Math.random() * H * 0.8,
+          r: 2.2 + Math.random() * 2.4,
+          color: pickColor(),
+          layer: li,
+          delay: li * 260 + Math.random() * 700,
+          locked: false,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    });
+
+    let offset = 0;
+    for (let li = 0; li < L - 1; li++) {
+      const aStart = offset, aEnd = offset + layerCounts[li];
+      const bStart = aEnd, bEnd = aEnd + layerCounts[li + 1];
+      for (let a = aStart; a < aEnd; a++) {
+        for (let b = bStart; b < bEnd; b++) {
+          const dy = Math.abs(nodes[a].ty - nodes[b].ty);
+          if (dy < H * 0.28 && Math.random() < 0.45) {
+            edges.push({ a, b, alpha: 0 });
+          }
+        }
+      }
+      offset = aEnd;
+    }
+  }
+  buildNetwork();
+
+  function makeDrifter() {
+    return {
+      x: Math.random() * W, y: H + 10 + Math.random() * H,
+      r: 0.8 + Math.random() * 1.4,
+      v: 0.25 + Math.random() * 0.6,
+      sway: Math.random() * Math.PI * 2,
+      color: pickColor(),
+      alpha: 0.12 + Math.random() * 0.25
+    };
+  }
+  for (let i = 0; i < 50; i++) drifters.push(makeDrifter());
+
+  window.addEventListener('resize', () => {
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W; canvas.height = H;
+  });
+
+  const t0 = performance.now();
+  const RISE_TIME = 2400;
+  let networkDone = false;
+
+  function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+  function spawnPulse() {
+    if (!edges.length) return;
+    const e = edges[Math.floor(Math.random() * edges.length)];
+    if (e.alpha < 0.4) return;
+    pulses.push({ e, p: 0, speed: 0.012 + Math.random() * 0.02 });
+  }
+
+  function render(now) {
+    const t = now - t0;
+    ctx.clearRect(0, 0, W, H);
+
+    for (const d of drifters) {
+      d.y -= d.v;
+      d.sway += 0.01;
+      d.x += Math.sin(d.sway) * 0.3;
+      if (d.y < -10) Object.assign(d, makeDrifter(), { y: H + 10 });
+      ctx.globalAlpha = d.alpha;
+      ctx.fillStyle = d.color;
+      ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    let allLocked = true;
+    for (const n of nodes) {
+      const lt = (t - n.delay) / RISE_TIME;
+      if (lt < 0) { allLocked = false; continue; }
+      if (lt >= 1) {
+        n.locked = true;
+        n.x = n.tx; n.y = n.ty;
+      } else {
+        allLocked = false;
+        const p = easeOutCubic(Math.min(lt, 1));
+        n.x = n.x + (n.tx - n.x) * 0.08 + Math.sin(t / 300 + n.phase) * (1 - p) * 1.2;
+        n.y = n.y + (n.ty - n.y) * 0.07;
+      }
+    }
+    if (allLocked) networkDone = true;
+
+    ctx.lineWidth = 1;
+    for (const e of edges) {
+      const A = nodes[e.a], B = nodes[e.b];
+      if (A.locked && B.locked && e.alpha < 0.5) e.alpha += 0.012;
+      if (e.alpha <= 0) continue;
+      ctx.globalAlpha = e.alpha * 0.5;
+      ctx.strokeStyle = '#c9c9c9';
+      ctx.beginPath(); ctx.moveTo(A.x, A.y); ctx.lineTo(B.x, B.y); ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    if (networkDone && Math.random() < 0.3) spawnPulse();
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const pu = pulses[i];
+      pu.p += pu.speed;
+      if (pu.p >= 1) { pulses.splice(i, 1); continue; }
+      const A = nodes[pu.e.a], B = nodes[pu.e.b];
+      const x = A.x + (B.x - A.x) * pu.p;
+      const y = A.y + (B.y - A.y) * pu.p;
+      ctx.fillStyle = '#A82828';
+      ctx.globalAlpha = 0.85;
+      ctx.beginPath(); ctx.arc(x, y, 1.8, 0, Math.PI * 2); ctx.fill();
+      ctx.globalAlpha = 1;
+    }
+
+    for (const n of nodes) {
+      if (t < n.delay) continue;
+      const pulse = n.locked ? 1 + Math.sin(t / 500 + n.phase) * 0.15 : 1;
+      ctx.fillStyle = n.color;
+      ctx.beginPath(); ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2); ctx.fill();
+    }
+
+    requestAnimationFrame(render);
+  }
+  requestAnimationFrame(render);
+
+  const TAGLINE = 'this site deals with the intelligence side of things';
+  const typedEl = document.getElementById('typed');
+  const loadingEl = document.getElementById('loading');
+  const loadbarEl = document.getElementById('loadbar');
+  const fillEl = loadbarEl.querySelector('.fill');
+  const enterEl = document.getElementById('enter');
+
+  let ci = 0;
+  const typeTimer = setInterval(() => {
+    typedEl.textContent = TAGLINE.slice(0, ++ci);
+    if (ci >= TAGLINE.length) {
+      clearInterval(typeTimer);
+      startLoading();
+    }
+  }, 42);
+
+  function startLoading() {
+    loadingEl.style.opacity = 1;
+    loadbarEl.style.opacity = 1;
+    let dots = 0;
+    const dotTimer = setInterval(() => {
+      dots = (dots + 1) % 4;
+      loadingEl.textContent = 'Loading' + '.'.repeat(dots);
+    }, 350);
+
+    const DURATION = 3800;
+    const s0 = performance.now();
+    (function tick(now) {
+      const p = Math.min((now - s0) / DURATION, 1);
+      fillEl.style.width = (p * 100).toFixed(1) + '%';
+      if (p < 1) { requestAnimationFrame(tick); }
+      else {
+        clearInterval(dotTimer);
+        loadingEl.textContent = 'Intelligence online';
+        enterEl.classList.add('show');
+      }
+    })(performance.now());
+  }
+})();
+</script>
+</body>
+</html>
