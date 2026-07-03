@@ -116,6 +116,13 @@ transition:all .35s var(--ease);
 position:absolute;right:-60px;top:40px;font-size:560px;line-height:1;
 color:var(--red);opacity:.08;font-weight:200;pointer-events:none;user-select:none;
 }
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:70px;align-items:center;position:relative;z-index:1}
+.hero .content{min-width:0}
+.hero .visual{position:relative;display:flex;justify-content:center;align-items:center}
+.hero .visual img{
+width:100%;max-width:520px;height:auto;display:block;
+/* image edges already fade to #0c0c0c so it melts into the bg */
+}
 .eyebrow{
 display:flex;align-items:center;gap:14px;
 font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--red);
@@ -181,6 +188,9 @@ footer .bottom{display:flex;justify-content:space-between;gap:20px;flex-wrap:wra
 .nav nav{display:none}
 .grid{grid-template-columns:1fr;gap:40px}
 .hero{padding:80px 0 70px}
+.hero .wrap{grid-template-columns:1fr;gap:40px}
+.hero .visual{order:-1}
+.hero .visual img{max-width:360px}
 .hero .caretghost{font-size:300px;right:-30px;opacity:.07}
 footer .top{flex-direction:column}
 }
@@ -201,12 +211,17 @@ footer .top{flex-direction:column}
 <section class="hero">
 <div class="caretghost">^</div>
 <div class="wrap">
+<div class="content">
 <div class="eyebrow reveal d1">Information Technology · Northern California</div>
 <h1 class="reveal d2">Technology that just <span class="accent">works</span>.</h1>
 <p class="lede reveal d3">Hands-on IT since 1997. Networks designed and cabled, machines repaired and built, systems that hold up — onsite in Northern California or remote anywhere.</p>
 <div class="actions reveal d4">
 <a href="https://idezign.ai/help/" class="btn-primary">Start a remote session &nbsp;→</a>
 <a href="#contact" class="btn-text">Start a conversation</a>
+</div>
+</div>
+<div class="visual reveal d3">
+<img src="photos/wire-guy.jpg" alt="Technician tangled in a mess of network cables — the reality of hands-on IT" loading="lazy">
 </div>
 </div>
 </section>
